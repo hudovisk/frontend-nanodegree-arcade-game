@@ -44,13 +44,15 @@ var Engine = (function(global) {
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        update(dt);
-        render();
+        if (1/60 <= dt) {
+          update(dt);
+          render();
 
-        /* Set our lastTime variable which is used to determine the time delta
-         * for the next time this function is called.
-         */
-        lastTime = now;
+          /* Set our lastTime variable which is used to determine the time delta
+           * for the next time this function is called.
+           */
+          lastTime = now;
+        }
 
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
@@ -78,7 +80,8 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-        updateEntities(dt);
+      window.gameState.update(dt);
+        // updateEntities(dt);
         // checkCollisions();
     }
 
@@ -90,10 +93,10 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
-        });
-        player.update();
+        // allEnemies.forEach(function(enemy) {
+        //     enemy.update(dt);
+        // });
+        // player.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -149,11 +152,17 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
-        });
+        // allEnemies.forEach(function(enemy) {
+        //     ctx.save();
+        //     enemy.render();
+        //     ctx.restore();
+        // });
 
-        player.render();
+        // ctx.save();
+        // player.render();
+        // ctx.restore();
+
+        window.gameState.render();
     }
 
     /* This function does nothing but it could have been a good place to
